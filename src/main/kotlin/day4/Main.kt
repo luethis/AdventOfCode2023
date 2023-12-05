@@ -26,7 +26,7 @@ fun easy() {
     println(score)
 }
 
-var total = 0
+var totalCards = 0
 
 fun hard() {
     val input = input.readLines()
@@ -34,21 +34,22 @@ fun hard() {
     input.forEachIndexed { index, _ ->
         evaluate(input, index)
     }
+
+    println(totalCards)
 }
 
 private fun evaluate(input: List<String>, index: Int) {
-    input.getOrNull(index)?.let {
+    input.getOrNull(index)?.let { card ->
 
-        total++
-        println("proceeded card $index")
+        totalCards++
 
-        val winningNumbers = it.split("|")[0].split(":")[1].split(" ").mapNotNull { it.toIntOrNull() }
-        val cardNumbers = it.split("|")[1].split(" ").mapNotNull { it.toIntOrNull() }
+        val winningNumbers = card.split("|")[0].split(":")[1].split(" ").mapNotNull { it.toIntOrNull() }
+        val cardNumbers = card.split("|")[1].split(" ").mapNotNull { it.toIntOrNull() }
 
-        winningNumbers.forEach { currentNumber ->
-            if (cardNumbers.contains(currentNumber)) {
-                evaluate(input, index + 1)
-            }
+        val wins = winningNumbers.count { cardNumbers.contains(it) }
+
+        for (i in 0..<wins) {
+            evaluate(input, index + i + 1)
         }
     }
 }
