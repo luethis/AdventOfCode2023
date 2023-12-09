@@ -4,6 +4,7 @@ import java.io.File
 
 val input = File("src/main/kotlin/day9/input.txt")
 
+val partTwo = true
 
 // to low: 1938800260
 // too h : 1938800269
@@ -21,8 +22,14 @@ fun main() {
             }
             seq.add(latestDiffs)
         }
-        seq.sumOf { it.last() }
+
+        if (partTwo) {
+            seq.reversed().map { it.first() }.reduce { acc, new -> new - acc }
+        } else {
+            seq.sumOf { it.last() }
+        }
     }
 
     println(result)
 }
+
